@@ -28,3 +28,10 @@ h1, h2, h3, h4, h5 {
 .cover-line {
   background: #1C1511;
 }
+
+a {
+  text-decoration: underline;
+}
+a:hover {
+  color: white;
+}
