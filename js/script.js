@@ -32,9 +32,9 @@ $( document ).ready(function() {
               // Init variables
               var self = this
 
-
               var app_id = "appWjWl1OCktfyHo0";
-              var app_key = "keyV8Up1Rd7LJwmXa";
+              var app_key = "keym8ucVtuq8SCzZF";
+
 
               this.items = []
               axios.get(
