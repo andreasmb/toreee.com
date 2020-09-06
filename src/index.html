@@ -29,7 +29,7 @@
               <p class="mb-2">{{ item['fields']['presse-beskrivelse'] }}</p>
               <img :src="item['fields']['photo'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo']" class="my-6 h-40 w-auto">
               <img :src="item['fields']['photo-vertikal'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo-vertikal']" class="my-6 h-56 w-auto">
-              <a v-if="item['fields']['ekstern-link']" class="text mb-2 text-sm" href="{{ item['fields']['ekstern-link'] }}">{{ item['fields']['ekstern-link-label'] }}</a>
+              <a v-if="item['fields']['ekstern-link']" class="text mb-2 text-sm" :href="item['fields']['ekstern-link']">{{ item['fields']['ekstern-link-label'] }}</a>
             </div>
           </div>
         </div>

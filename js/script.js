@@ -43,7 +43,6 @@ $( document ).ready(function() {
                       headers: { Authorization: "Bearer "+app_key }
                   }
               ).then(function(response){
-                  console.log("RECORDS", response.data.records)
                   self.items = response.data.records
               }).catch(function(error){
                   console.log(error)
