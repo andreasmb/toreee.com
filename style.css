@@ -13,6 +13,11 @@ body {
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.5;
   min-width: 320px;
+  background-image: url(imgs/naples.jpg);
+  background-position: 40% 0%;
+  background-size: 1400px;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
 }
 
 h1, h2, h3, h4, h5 {
