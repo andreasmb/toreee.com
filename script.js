@@ -1,0 +1,34 @@
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        items: []
+    },
+    mounted: function(){
+       this.loadItems();
+    },
+    methods: {
+        loadItems: function(){
+
+            // Init variables
+            var self = this
+
+
+            var app_id = "appWjWl1OCktfyHo0";
+            var app_key = "keyV8Up1Rd7LJwmXa";
+
+            this.items = []
+            axios.get(
+                "https://api.airtable.com/v0/"+app_id+"/Menu?view=Grid%20view",
+                {
+                    headers: { Authorization: "Bearer "+app_key }
+                }
+            ).then(function(response){
+                console.log("RECORDS", response.data.records)
+                self.items = response.data.records
+            }).catch(function(error){
+                console.log(error)
+            })
+        }
+    }
+})

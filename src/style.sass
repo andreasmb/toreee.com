@@ -1,0 +1,32 @@
+$body-background-color: #1C1511
+$body-color: rgba(white, 0.5)
+$body-min-width: 320px
+
+
+@font-face
+    font-family: domaine
+    src: url("fonts/domaine-text.otf") format("opentype")
+
+@font-face
+    font-family: domaine
+    font-style: italic
+    src: url("fontd/domaine-text-italic.otf") format("opentype")
+
+
+body
+  font-family: domaine, sans-serif
+  background-color: $body-background-color
+  color: $body-color
+  line-height: 1.5
+  min-width: $body-min-width
+
+h1, h2, h3, h4, h5
+  color: white
+
+.publikasjon
+  background-image: url('imgs/line.svg')
+  background-repeat: repeat-x
+  background-position: 0 10px
+
+.cover-line
+  background: $body-background-color

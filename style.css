@@ -1,0 +1,30 @@
+@font-face {
+  font-family: domaine;
+  src: url("fonts/domaine-text.otf") format("opentype");
+}
+@font-face {
+  font-family: domaine;
+  font-style: italic;
+  src: url("fontd/domaine-text-italic.otf") format("opentype");
+}
+body {
+  font-family: domaine, sans-serif;
+  background-color: #1C1511;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  min-width: 320px;
+}
+
+h1, h2, h3, h4, h5 {
+  color: white;
+}
+
+.publikasjon {
+  background-image: url("imgs/line.svg");
+  background-repeat: repeat-x;
+  background-position: 0 10px;
+}
+
+.cover-line {
+  background: #1C1511;
+}
