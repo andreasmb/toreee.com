@@ -1,22 +1,11 @@
 
 
-new WOW().init();
-
 $( document ).ready(function() {
 
-  // $("body").css("display", "none");
-  //
   $("#app").hide();
   $("#name").hide();
   $("#name-desc").hide();
   $("#kontakt").hide();
-  //
-  // console.log("APP", $("body"));
-  //
-  // $("body").fadeIn();
-
-
-  // $('#app').delay(155)({'opacity': 1}, 1000);
 
   var app = new Vue({
       el: '#app',
@@ -44,6 +33,7 @@ $( document ).ready(function() {
                   }
               ).then(function(response){
                   self.items = response.data.records
+
               }).catch(function(error){
                   console.log(error)
               })
@@ -54,8 +44,28 @@ $( document ).ready(function() {
 
   $('#name').fadeIn("slow");
   $('#name-desc').delay(500).fadeIn("slow");
-  $('#app').delay(1000).fadeIn("slow");
-  $('#kontakt ').delay(1000).fadeIn("slow");
+  $('#app').delay(1200).fadeIn("slow");
+  $('#kontakt ').delay(1500).fadeIn("slow");
+
+  // Convert markdown to html
+
+  setTimeout(function(){
+
+    $( ".presse-beskrivelse" ).each(function(index) {
+      var converter = new showdown.Converter();
+      var md = $(this).text();
+      var html = converter.makeHtml(md);
+      $(this).html(html);
+    });
+
+    $( ".min-beskrivelse" ).each(function(index) {
+      var converter = new showdown.Converter();
+      var md = $(this).text();
+      var html = converter.makeHtml(md);
+      $(this).html(html);
+    });
+
+  }, 1000);
 
 
 });

@@ -10,8 +10,12 @@ $body-min-width: 320px
 @font-face
     font-family: domaine
     font-style: italic
-    src: url("fontd/domaine-text-italic.otf") format("opentype")
+    src: url("fonts/domaine-text-italic.otf") format("opentype")
 
+@font-face
+    font-family: domaine
+    font-weight: bold
+    src: url("fonts/domaine-text-bold.otf") format("opentype")
 
 body
   font-family: domaine, sans-serif
@@ -33,6 +37,9 @@ h1, h2, h3, h4, h5
   background-repeat: repeat-x
   background-position: 0 10px
 
+.vertikalt-bilde
+  max-height: 30rem  
+
 .cover-line
   background: $body-background-color
 
@@ -40,3 +47,6 @@ a
   text-decoration: underline
   &:hover
     color: white
+
+p
+  margin-bottom: 0.5rem
