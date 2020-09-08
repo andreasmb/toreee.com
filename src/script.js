@@ -44,8 +44,8 @@ $( document ).ready(function() {
 
   $('#name').fadeIn("slow");
   $('#name-desc').delay(500).fadeIn("slow");
-  $('#app').delay(1200).fadeIn("slow");
-  $('#kontakt ').delay(1500).fadeIn("slow");
+  $('#app').delay(1500).fadeIn("slow");
+  $('#kontakt ').delay(1600).fadeIn("slow");
 
   // Convert markdown to html
 
@@ -65,7 +65,7 @@ $( document ).ready(function() {
       $(this).html(html);
     });
 
-  }, 1000);
+  }, 1500);
 
 
 });
