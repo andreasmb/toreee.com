@@ -9,6 +9,9 @@
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.7.6/tailwind.min.css'>
   <link rel="stylesheet" href="style.css">
+  <link href="imgs/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="imgs/favicon-256x256.png" rel="apple-touch-icon">
+
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2215092-8"></script>
@@ -39,10 +42,12 @@
           <div class="mb-10">
             <div class="cover-line px-2 inline-block text-lg text-white uppercase mb-6">{{ item['fields']['prosjekt-navn'] }}</div>
             <div class="px-2 min-w-32">
+              <a v-if="item['fields']['ekstern-link']" :href="item['fields']['ekstern-link']" target="_blank">
+                <img :src="item['fields']['photo'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo']" class="mb-8 w-full">
+                <img :src="item['fields']['photo-vertikal'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo-vertikal']" class="vertikalt-bilde mb-8 w-auto">
+              </a>
               <p class="mb-2 min-beskrivelse">{{ item['fields']['min-beskrivelse'] }}</p>
               <p class="mb-2 presse-beskrivelse">{{ item['fields']['presse-beskrivelse'] }}</p>
-              <img :src="item['fields']['photo'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo']" class="my-6 w-full">
-              <img :src="item['fields']['photo-vertikal'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo-vertikal']" class="vertikalt-bilde my-6 w-auto">
               <a v-if="item['fields']['ekstern-link']" class="text mb-2 text-sm" :href="item['fields']['ekstern-link']">{{ item['fields']['ekstern-link-label'] }}</a>
             </div>
           </div>
