@@ -33,6 +33,7 @@ $( document ).ready(function() {
                   }
               ).then(function(response){
                   self.items = response.data.records
+                  setTimeout(convertMarkdown, 1500);
 
               }).catch(function(error){
                   console.log(error)
@@ -49,7 +50,7 @@ $( document ).ready(function() {
 
   // Convert markdown to html
 
-  setTimeout(function(){
+  function convertMarkdown() {
 
     $( ".presse-beskrivelse" ).each(function(index) {
       var converter = new showdown.Converter();
@@ -64,8 +65,6 @@ $( document ).ready(function() {
       var html = converter.makeHtml(md);
       $(this).html(html);
     });
-
-  }, 1500);
-
+  }
 
 });
