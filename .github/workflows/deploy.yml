@@ -16,8 +16,8 @@ jobs:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
         run: |
-          echo "window.env = { AIRTABLE_API_KEY: '${{ secrets.AIRTABLE_API_KEY }}', AIRTABLE_BASE_ID: '${{ secrets.AIRTABLE_BASE_ID }}' };" > public/env.js
-          echo "console.log('Environment Variables:', window.env);" >> public/env.js
+          echo "window.env = { AIRTABLE_API_KEY: '${{ secrets.AIRTABLE_API_KEY }}', AIRTABLE_BASE_ID: '${{ secrets.AIRTABLE_BASE_ID }}' };" > env.js
+          echo "console.log('Environment Variables:', window.env);" >> env.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
