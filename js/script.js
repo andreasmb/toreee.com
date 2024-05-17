@@ -22,7 +22,7 @@ $( document ).ready(function() {
               var self = this
 
               var app_id = "appWjWl1OCktfyHo0";
-              var app_key = "keym8ucVtuq8SCzZF";
+              var app_key = "patHYTNk8NQFCZLkK.63a6c67d2585ff4222dbb7f735692a8415de7e07c27c93a9c725239f11ad6de7";
 
 
               this.items = []
