@@ -2,29 +2,34 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
       - gh-pages
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
+
       - name: Inject environment variables
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
         run: |
-          echo "window.env = { AIRTABLE_API_KEY: '${{ secrets.AIRTABLE_API_KEY }}', AIRTABLE_BASE_ID: '${{ secrets.AIRTABLE_BASE_ID }}' };" > public/env.js
+          echo "window.env = { AIRTABLE_API_KEY: '${{ secrets.AIRTABLE_API_KEY }}', AIRTABLE_BASE_ID: '${{ secrets.AIRTABLE_BASE_ID }}' };" > env.js
+          echo "console.log('Environment Variables:', window.env);" >> env.js
+
       - name: Build the project
         run: npm run build
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
