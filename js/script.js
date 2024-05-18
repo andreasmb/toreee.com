@@ -4,8 +4,6 @@ $(document).ready(function() {
   $("#name-desc").hide();
   $("#kontakt").hide();
 
-  console.log('Environment Variables at start:', window.env);
-
   var app = new Vue({
     el: '#app',
     data: {
@@ -21,7 +19,6 @@ $(document).ready(function() {
 
         // Use the injected environment variables
         if (typeof window.env !== 'undefined') {
-          console.log('Environment Variables:', window.env);
           var app_id = window.env.AIRTABLE_BASE_ID;
           var app_key = window.env.AIRTABLE_API_KEY;
 
