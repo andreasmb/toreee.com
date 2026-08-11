@@ -71,7 +71,12 @@ function AppData() {
       axios.get(url, {
         headers: { Authorization: "Bearer " + appKey }
       }).then(function(response) {
-        self.items = self.items.concat(response.data.records);
+        // Skip incomplete/draft Airtable rows (no title) — they'd otherwise
+        // render as an empty layout shell with nothing but a divider line.
+        var records = response.data.records.filter(function(record) {
+          return !!(record.fields && record.fields['prosjekt-navn'] && record.fields['prosjekt-navn'].trim());
+        });
+        self.items = self.items.concat(records);
 
         if (response.data.offset) {
           // Airtable paginates at 100 records per request; keep following the offset.

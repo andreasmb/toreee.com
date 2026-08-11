@@ -122,6 +122,10 @@ async function main() {
     return;
   }
 
+  // Skip incomplete/draft Airtable rows (no title) — they'd otherwise render
+  // as an empty layout shell with nothing but a divider line.
+  records = records.filter((record) => !!(record.fields && record.fields['prosjekt-navn'] && record.fields['prosjekt-navn'].trim()));
+
   const converter = new showdown.Converter();
   const itemsHtml = records.map((item) => renderItem(item, converter)).join('\n');
 
