@@ -3,61 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Essayist and editor. Projects include Wolves Evolve – The Ulver Story and Crypta Neapolitana.">
   <link rel="icon" href="imgs/favicon.png">
-  <title>Tore Engelsen Espedal - Skribent og redaktør</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
-  <!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css'> -->
+  <title>Tore Engelsen Espedal</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.7.6/tailwind.min.css'>
   <link rel="stylesheet" href="style.css">
+  <link href="imgs/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="imgs/favicon-256x256.png" rel="apple-touch-icon">
+
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MPZZJ4WP2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-2MPZZJ4WP2');
+  </script>
+  <script src="js/env.js"></script>
+
 </head>
 
 <body class="py-10 px-4 md:px-10">
   <div id="bakgrunn"></div>
 <!-- partial:index.partial.html -->
+  <div class="max-w-screen-lg mx-auto">
   <div class="mb-40 relative">
     <h1 id="name" class="text-2xl uppercase hidden">Tore Engelsen Espedal</h1>
-    <p id="name-desc" class="text-lg hidden">Skribent og redaktør</p>
+    <p id="name-desc" class="text-lg hidden text-pale-oak">Writer and editor</p>
   </div>
 
-  <div id="app" class="max-w-screen-lg mb-20 relative hidden">
-    <div v-for="item in items" class="publikasjon mb-16 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-12 md:gap-x-8">
-        <div class="col-span-12 sm:col-span-12 md:col-span-2 min-w-0">
-          <div class="cover-line px-2 text-lg uppercase inline-block">{{ item['fields']['type-prosjekt'] }}</div>
+  <div id="static-items" class="mb-20 relative">
+    <!-- PRERENDER:ITEMS -->
+  </div>
+
+  <div id="app" v-scope="AppData()" @vue:mounted="loadItems()" class="mb-20 relative hidden">
+    <p v-if="loading" class="mb-8 text-sm">Loading{{ dots }}</p>
+    <p v-if="loadError" class="mb-8 text-sm">Couldn't load content. Please try again later.</p>
+    <div v-for="item in items" :key="item.id" class="publikasjon mb-16 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-12 md:gap-x-8">
+        <div class="col-span-12 sm:col-span-12 md:col-span-3 min-w-0">
+          <div class="flex items-start line-row mb-2 md:mb-0 text-lg uppercase text-pale-oak">
+            <span class="px-2">{{ item['fields']['type-prosjekt'] }}</span>
+            <span class="line-segment line-offset flex-1 ml-2 md:-mr-8"></span>
+          </div>
         </div>
-        <div class="col-span-12 sm:col-span-12 md:col-span-7 lg:col-span-8 min-w-0">
+        <div class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-7 min-w-0">
           <div class="mb-10">
-            <div class="cover-line px-2 inline-block text-lg text-white uppercase mb-6">{{ item['fields']['prosjekt-navn'] }}</div>
+            <div class="flex items-start line-row text-lg text-white uppercase mb-6">
+              <span class="px-2">{{ item['fields']['prosjekt-navn'] }}</span>
+              <span class="line-segment line-offset flex-1 ml-2 md:-mr-8 hidden md:block"></span>
+            </div>
             <div class="px-2 min-w-32">
+              <a v-if="item['fields']['ekstern-link']" :href="item['fields']['ekstern-link']" target="_blank">
+                <img :src="photoUrl(item, 'photo')" alt="" v-if="photoUrl(item, 'photo')" class="mb-8 w-full">
+                <img :src="photoUrl(item, 'photo-vertikal')" alt="" v-if="photoUrl(item, 'photo-vertikal')" class="vertikalt-bilde mb-8 w-auto">
+              </a>
               <p class="mb-2 min-beskrivelse">{{ item['fields']['min-beskrivelse'] }}</p>
               <p class="mb-2 presse-beskrivelse">{{ item['fields']['presse-beskrivelse'] }}</p>
-              <img :src="item['fields']['photo'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo']" class="my-6 w-full">
-              <img :src="item['fields']['photo-vertikal'][0]['thumbnails']['large']['url']" alt="" v-if="item['fields']['photo-vertikal']" class="vertikalt-bilde my-6 w-auto">
               <a v-if="item['fields']['ekstern-link']" class="text mb-2 text-sm" :href="item['fields']['ekstern-link']">{{ item['fields']['ekstern-link-label'] }}</a>
             </div>
           </div>
         </div>
 
-        <div class="col-span-12 sm:col-span-12 md:col-span-3 lg:col-span-2 min-w-0 text-right">
-          <div class="cover-line px-2 inline-block text-xs md:text-base">{{ item['fields']['dato'] }}</div>
+        <div class="col-span-12 sm:col-span-12 md:col-span-3 lg:col-span-2 min-w-0">
+          <div class="flex items-start line-row text-xs md:text-base text-pale-oak">
+            <span class="line-segment line-offset flex-1 mr-2 hidden md:block"></span>
+            <span class="px-2">{{ item['fields']['dato'] }}</span>
+          </div>
         </div>
       </div>
 
     </div><!--app-->
 
   <div id="kontakt" class="mb-32 relative hidden">
-    <h2 class="uppercase text-lg mb-2">Kontakt</h2>
+    <h2 class="uppercase text-lg mb-2">Contact</h2>
     <a href="mailto:toreee@gmail.com">toreee@gmail.com</a> / <a href="tel:+4798074152">+47 980 74 152</a>
+  </div>
   </div>
 
 
 
   <!-- Include Dependancy Scripts -->
-  <script type="text/javascript" src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
 
   <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js'></script>
+
 
   <script  src="js/script.js"></script>
 

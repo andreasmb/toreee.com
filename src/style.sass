@@ -2,6 +2,10 @@ $body-background-color: #1C1511
 $body-color: rgba(white, 0.6)
 $body-min-width: 320px
 
+:root
+  --color-pale-oak: #CFC1A0
+  --color-dark-khaki: #443A22
+
 
 @font-face
     font-family: domaine
@@ -31,9 +35,9 @@ body
   bottom: 0
   left: 0
   opacity: 0
-  background-image: url(imgs/naples.jpg)
-  background-position: 40% 0%
-  background-size: 1400px
+  background-image: url(imgs/naples-cropped.jpg)
+  background-position: 85% 0%
+  background-size: auto
   background-repeat: no-repeat
   background-attachment: scroll
 
@@ -73,16 +77,24 @@ body
 h1, h2, h3, h4, h5
   color: white
 
-.publikasjon
-  background-image: url('imgs/line.svg')
-  background-repeat: repeat-x
-  background-position: 0 10px
-
 .vertikalt-bilde
   max-height: 30rem
 
-.cover-line
-  background: $body-background-color
+.line-segment
+  height: 1px
+  background-color: var(--color-dark-khaki)
+
+.line-row
+  min-height: 1.75rem
+
+// Anchors the line to the vertical center of the row's first text line,
+// independent of the row's total height — keeps lines aligned even when
+// a title wraps onto multiple lines.
+.line-offset
+  margin-top: 0.8125rem
+
+.text-pale-oak
+  color: var(--color-pale-oak)
 
 a
   text-decoration: underline

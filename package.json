@@ -1,0 +1,10 @@
+{
+  "name": "toreee-com",
+  "private": true,
+  "scripts": {
+    "prerender": "node scripts/prerender.js"
+  },
+  "dependencies": {
+    "showdown": "^1.9.1"
+  }
+}

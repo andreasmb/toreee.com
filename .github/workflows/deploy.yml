@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,6 +20,22 @@ jobs:
         run: |
           echo "window.env = { AIRTABLE_API_KEY: '${{ secrets.AIRTABLE_API_KEY }}', AIRTABLE_BASE_ID: '${{ secrets.AIRTABLE_BASE_ID }}' };" > js/env.js
           echo "console.log('Environment Variables:', window.env);" >> js/env.js
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        continue-on-error: true
+        run: npm install
+
+      - name: Prerender Airtable content
+        continue-on-error: true
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+        run: npm run prerender
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
