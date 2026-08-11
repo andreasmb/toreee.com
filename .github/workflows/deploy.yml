@@ -43,3 +43,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: .
+          # .gitignore excludes js/env.js (it's generated fresh each run, never
+          # committed to the source repo) — but publish_dir is "." so .gitignore
+          # itself would otherwise get copied onto gh-pages too, where its own
+          # rules then strip js/env.js out of that branch's commit. Excluding
+          # .gitignore from the publish keeps the generated file intact.
+          exclude_assets: '.gitignore,node_modules'
