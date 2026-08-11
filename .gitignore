@@ -2,3 +2,5 @@
 fonts/.DS_Store
 .DS_Store
 config.codekit3
+js/env.js
+node_modules/

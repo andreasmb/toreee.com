@@ -1,67 +1,113 @@
+function AppData() {
+  return {
+    items: [],
+    loadError: false,
+    loading: true,
+    dots: '.',
+    dotsTimer: null,
+
+    loadItems: function() {
+      this.items = [];
+      this.loadError = false;
+      this.loading = true;
+      this.startDots();
+
+      if (typeof window.env === 'undefined') {
+        console.error("Environment variables are not defined.");
+        this.loadError = true;
+        this.finishLoading();
+        return;
+      }
+
+      this.fetchPage(window.env.AIRTABLE_BASE_ID, window.env.AIRTABLE_API_KEY, null);
+    },
+
+    startDots: function() {
+      var self = this;
+      this.dots = '.';
+      this.stopDots();
+      this.dotsTimer = setInterval(function() {
+        self.dots = self.dots.length >= 3 ? '.' : self.dots + '.';
+      }, 400);
+    },
+
+    stopDots: function() {
+      if (this.dotsTimer) {
+        clearInterval(this.dotsTimer);
+        this.dotsTimer = null;
+      }
+    },
+
+    // Loading is done (success or failure) — reveal #app and #kontakt now instead of on a fixed timer,
+    // and hand off from the prerendered static fallback to the live app.
+    finishLoading: function() {
+      this.loading = false;
+      this.stopDots();
+      $('#static-items').fadeOut('slow');
+      $('#app').fadeIn('slow');
+      $('#kontakt').fadeIn('slow');
+    },
+
+    fetchPage: function(appId, appKey, offset) {
+      var self = this;
+      var url = "https://api.airtable.com/v0/" + appId + "/Menu?view=Grid%20view" +
+        (offset ? "&offset=" + offset : "");
+
+      axios.get(url, {
+        headers: { Authorization: "Bearer " + appKey }
+      }).then(function(response) {
+        self.items = self.items.concat(response.data.records);
+
+        if (response.data.offset) {
+          // Airtable paginates at 100 records per request; keep following the offset.
+          self.fetchPage(appId, appKey, response.data.offset);
+        } else {
+          self.finishLoading();
+          // Wait for petite-vue's DOM update before converting the rendered markdown.
+          PetiteVue.nextTick(convertMarkdown);
+        }
+      }).catch(function(error) {
+        console.log(error);
+        self.loadError = true;
+        self.finishLoading();
+      });
+    },
+
+    photoUrl: function(item, field) {
+      var attachments = item && item.fields && item.fields[field];
+      var thumb = attachments && attachments[0] && attachments[0].thumbnails && attachments[0].thumbnails.large;
+      return thumb ? thumb.url : '';
+    }
+  };
+}
+
+PetiteVue.createApp({ AppData }).mount();
+
+// Convert markdown to html
+function convertMarkdown() {
+  $(".presse-beskrivelse").each(function(index) {
+    var converter = new showdown.Converter();
+    var md = $(this).text();
+    var html = converter.makeHtml(md);
+    $(this).html(html);
+  });
+
+  $(".min-beskrivelse").each(function(index) {
+    var converter = new showdown.Converter();
+    var md = $(this).text();
+    var html = converter.makeHtml(md);
+    $(this).html(html);
+  });
+}
+
 $(document).ready(function() {
   $("#app").hide();
   $("#name").hide();
   $("#name-desc").hide();
   $("#kontakt").hide();
 
-  var app = new Vue({
-    el: '#app',
-    data: {
-      items: []
-    },
-    mounted: function() {
-      this.loadItems();
-    },
-    methods: {
-      loadItems: function() {
-        // Init variables
-        var self = this;
-
-        // Use the injected environment variables
-        if (typeof window.env !== 'undefined') {
-          var app_id = window.env.AIRTABLE_BASE_ID;
-          var app_key = window.env.AIRTABLE_API_KEY;
-
-          this.items = [];
-          axios.get(
-            "https://api.airtable.com/v0/" + app_id + "/Menu?view=Grid%20view",
-            {
-              headers: { Authorization: "Bearer " + app_key }
-            }
-          ).then(function(response) {
-            self.items = response.data.records;
-            setTimeout(convertMarkdown, 1500);
-          }).catch(function(error) {
-            console.log(error);
-          });
-        } else {
-          console.error("Environment variables are not defined.");
-        }
-      }
-    }
-  });
-
   $('#name').fadeIn("slow");
   $('#name-desc').delay(500).fadeIn("slow");
-  $('#app').delay(1500).fadeIn("slow");
-  $('#kontakt').delay(1600).fadeIn("slow");
-
-  // Convert markdown to html
-  function convertMarkdown() {
-    $(".presse-beskrivelse").each(function(index) {
-      var converter = new showdown.Converter();
-      var md = $(this).text();
-      var html = converter.makeHtml(md);
-      $(this).html(html);
-    });
-
-    $(".min-beskrivelse").each(function(index) {
-      var converter = new showdown.Converter();
-      var md = $(this).text();
-      var html = converter.makeHtml(md);
-      $(this).html(html);
-    });
-  }
 
   // Set the current year dynamically
   var currentYear = new Date().getFullYear();
