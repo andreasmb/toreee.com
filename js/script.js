@@ -15,7 +15,7 @@ function AppData() {
       if (typeof window.env === 'undefined') {
         console.error("Environment variables are not defined.");
         this.loadError = true;
-        this.finishLoading();
+        this.handleFailure();
         return;
       }
 
@@ -38,14 +38,29 @@ function AppData() {
       }
     },
 
-    // Loading is done (success or failure) — reveal #app and #kontakt now instead of on a fixed timer,
-    // and hand off from the prerendered static fallback to the live app.
     finishLoading: function() {
       this.loading = false;
       this.stopDots();
+    },
+
+    // Live data loaded successfully — hand off from the prerendered static
+    // fallback to the live app instead of on a fixed timer.
+    handleSuccess: function() {
+      this.finishLoading();
       $('#static-items').fadeOut('slow');
       $('#app').fadeIn('slow');
       $('#kontakt').fadeIn('slow');
+    },
+
+    // Live data failed to load (missing env vars, network error, etc). If the
+    // prerendered static fallback already has real content, leave it showing
+    // instead of hiding it in favor of an empty/error #app.
+    handleFailure: function() {
+      this.finishLoading();
+      $('#kontakt').fadeIn('slow');
+      if ($('#static-items .publikasjon').length === 0) {
+        $('#app').fadeIn('slow');
+      }
     },
 
     fetchPage: function(appId, appKey, offset) {
@@ -62,14 +77,14 @@ function AppData() {
           // Airtable paginates at 100 records per request; keep following the offset.
           self.fetchPage(appId, appKey, response.data.offset);
         } else {
-          self.finishLoading();
+          self.handleSuccess();
           // Wait for petite-vue's DOM update before converting the rendered markdown.
           PetiteVue.nextTick(convertMarkdown);
         }
       }).catch(function(error) {
         console.log(error);
         self.loadError = true;
-        self.finishLoading();
+        self.handleFailure();
       });
     },
 
