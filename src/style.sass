@@ -1,10 +1,11 @@
 $body-background-color: #1C1511
-$body-color: rgba(white, 0.6)
 $body-min-width: 320px
 
 :root
   --color-pale-oak: #CFC1A0
   --color-dark-khaki: #443A22
+  --color-parchment: #F8F6F1
+  --color-eggshell: #EAE5D6
 
 
 @font-face
@@ -24,7 +25,7 @@ $body-min-width: 320px
 body
   font-family: domaine, sans-serif
   background-color: $body-background-color
-  color: $body-color
+  color: var(--color-eggshell)
   line-height: 1.5
   min-width: $body-min-width
 
@@ -75,7 +76,7 @@ body
 
 
 h1, h2, h3, h4, h5
-  color: white
+  color: var(--color-parchment)
 
 .vertikalt-bilde
   max-height: 30rem
@@ -95,6 +96,9 @@ h1, h2, h3, h4, h5
 
 .text-pale-oak
   color: var(--color-pale-oak)
+
+.text-parchment
+  color: var(--color-parchment)
 
 a
   text-decoration: underline

@@ -80,7 +80,7 @@ function renderItem(item, converter) {
         </div>
         <div class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-7 min-w-0">
           <div class="mb-10">
-            <div class="flex items-start line-row text-lg text-white uppercase mb-6">
+            <div class="flex items-start line-row text-lg text-parchment uppercase mb-6">
               <span class="px-2">${title}</span>
               <span class="line-segment line-offset flex-1 ml-2 md:-mr-8 hidden md:block"></span>
             </div>
