@@ -43,22 +43,23 @@ function AppData() {
       this.stopDots();
     },
 
-    // Live data loaded successfully — hand off from the prerendered static
-    // fallback to the live app instead of on a fixed timer.
+    // Live data loaded successfully — reveal the live app. The prerendered
+    // static fallback was never shown, so there's nothing to fade out.
     handleSuccess: function() {
       this.finishLoading();
-      $('#static-items').fadeOut('slow');
       $('#app').fadeIn('slow');
       $('#kontakt').fadeIn('slow');
     },
 
-    // Live data failed to load (missing env vars, network error, etc). If the
-    // prerendered static fallback already has real content, leave it showing
-    // instead of hiding it in favor of an empty/error #app.
+    // Live data failed to load (missing env vars, network error, etc). Fall
+    // back to the prerendered static content if it has anything real in it;
+    // otherwise fall back to #app's own error message.
     handleFailure: function() {
       this.finishLoading();
       $('#kontakt').fadeIn('slow');
-      if ($('#static-items .publikasjon').length === 0) {
+      if ($('#static-items .publikasjon').length > 0) {
+        $('#static-items').fadeIn('slow');
+      } else {
         $('#app').fadeIn('slow');
       }
     },
@@ -103,16 +104,19 @@ function AppData() {
 
 PetiteVue.createApp({ AppData }).mount();
 
-// Convert markdown to html
+// Convert markdown to html. Scoped to #app only — #static-items already has
+// its markdown converted at build time (see scripts/prerender.js), and
+// re-running it through .text() + makeHtml() here would strip that
+// formatting (bold/italic/links) back out.
 function convertMarkdown() {
-  $(".presse-beskrivelse").each(function(index) {
+  $("#app .presse-beskrivelse").each(function(index) {
     var converter = new showdown.Converter();
     var md = $(this).text();
     var html = converter.makeHtml(md);
     $(this).html(html);
   });
 
-  $(".min-beskrivelse").each(function(index) {
+  $("#app .min-beskrivelse").each(function(index) {
     var converter = new showdown.Converter();
     var md = $(this).text();
     var html = converter.makeHtml(md);
@@ -121,11 +125,12 @@ function convertMarkdown() {
 }
 
 $(document).ready(function() {
-  $("#app").hide();
-  $("#name").hide();
-  $("#name-desc").hide();
-  $("#kontakt").hide();
-
+  // #app, #static-items, #name, #name-desc, and #kontakt all already start
+  // with the "hidden" CSS class in the HTML, so there's no need to also
+  // .hide() them here — doing so raced against handleSuccess()/
+  // handleFailure()'s fadeIn() calls (which can fire synchronously, before
+  // this ready callback, when loading fails immediately) and silently
+  // undid them.
   $('#name').fadeIn("slow");
   $('#name-desc').delay(500).fadeIn("slow");
 

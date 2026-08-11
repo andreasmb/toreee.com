@@ -86,8 +86,8 @@ function renderItem(item, converter) {
             </div>
             <div class="px-2 min-w-32">
               ${imagesBlock}
-              <p class="mb-2 min-beskrivelse">${minB}</p>
-              <p class="mb-2 presse-beskrivelse">${presseB}</p>
+              <div class="mb-2 min-beskrivelse">${minB}</div>
+              <div class="mb-2 presse-beskrivelse">${presseB}</div>
               ${linkBlock}
             </div>
           </div>

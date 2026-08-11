@@ -35,12 +35,14 @@
     <p id="name-desc" class="text-lg hidden text-pale-oak">Writer and editor</p>
   </div>
 
-  <div id="static-items" class="mb-20 relative">
-    <!-- PRERENDER:ITEMS -->
-  </div>
-
-  <div id="app" v-scope="AppData()" @vue:mounted="loadItems()" class="mb-20 relative hidden">
+  <div id="content" v-scope="AppData()" @vue:mounted="loadItems()" class="mb-20 relative">
     <p v-if="loading" class="mb-8 text-sm">Loading{{ dots }}</p>
+
+    <div id="static-items" class="relative hidden">
+      <!-- PRERENDER:ITEMS -->
+    </div>
+
+    <div id="app" class="relative hidden">
     <p v-if="loadError" class="mb-8 text-sm">Couldn't load content. Please try again later.</p>
     <div v-for="item in items" :key="item.id" class="publikasjon mb-16 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-12 md:gap-x-8">
         <div class="col-span-12 sm:col-span-12 md:col-span-3 min-w-0">
@@ -60,8 +62,8 @@
                 <img :src="photoUrl(item, 'photo')" alt="" v-if="photoUrl(item, 'photo')" class="mb-8 w-full">
                 <img :src="photoUrl(item, 'photo-vertikal')" alt="" v-if="photoUrl(item, 'photo-vertikal')" class="vertikalt-bilde mb-8 w-auto">
               </a>
-              <p class="mb-2 min-beskrivelse">{{ item['fields']['min-beskrivelse'] }}</p>
-              <p class="mb-2 presse-beskrivelse">{{ item['fields']['presse-beskrivelse'] }}</p>
+              <div class="mb-2 min-beskrivelse">{{ item['fields']['min-beskrivelse'] }}</div>
+              <div class="mb-2 presse-beskrivelse">{{ item['fields']['presse-beskrivelse'] }}</div>
               <a v-if="item['fields']['ekstern-link']" class="text mb-2 text-sm" :href="item['fields']['ekstern-link']">{{ item['fields']['ekstern-link-label'] }}</a>
             </div>
           </div>
@@ -76,6 +78,7 @@
       </div>
 
     </div><!--app-->
+  </div><!--content-->
 
   <div id="kontakt" class="mb-32 relative hidden">
     <h2 class="uppercase text-lg mb-2">Contact</h2>
