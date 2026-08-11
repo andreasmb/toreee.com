@@ -15,12 +15,14 @@
 :root {
   --color-pale-oak: #CFC1A0;
   --color-dark-khaki: #443A22;
+  --color-parchment: #F8F6F1;
+  --color-eggshell: #EAE5D6;
 }
 
 body {
   font-family: domaine, sans-serif;
   background-color: #1C1511;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-eggshell);
   line-height: 1.5;
   min-width: 320px;
 }
@@ -60,7 +62,7 @@ body {
   }
 }
 h1, h2, h3, h4, h5 {
-  color: white;
+  color: var(--color-parchment);
 }
 
 .vertikalt-bilde {
@@ -85,6 +87,10 @@ h1, h2, h3, h4, h5 {
 
 .text-pale-oak {
   color: var(--color-pale-oak);
+}
+
+.text-parchment {
+  color: var(--color-parchment);
 }
 
 a {
