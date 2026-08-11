@@ -19,7 +19,6 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
         run: |
           echo "window.env = { AIRTABLE_API_KEY: '${{ secrets.AIRTABLE_API_KEY }}', AIRTABLE_BASE_ID: '${{ secrets.AIRTABLE_BASE_ID }}' };" > js/env.js
-          echo "console.log('Environment Variables:', window.env);" >> js/env.js
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
