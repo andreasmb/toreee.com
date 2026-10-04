@@ -95,11 +95,39 @@ function AppData() {
     },
 
     photoUrl: function(item, field) {
-      var attachments = item && item.fields && item.fields[field];
-      var thumb = attachments && attachments[0] && attachments[0].thumbnails && attachments[0].thumbnails.large;
+      var thumb = photoThumb(item, field);
       return thumb ? thumb.url : '';
+    },
+
+    // Width/height let the browser reserve the image's space before it has
+    // loaded, so the text below doesn't jump down when it arrives.
+    photoWidth: function(item, field) {
+      var thumb = photoThumb(item, field);
+      return thumb ? thumb.width : null;
+    },
+
+    photoHeight: function(item, field) {
+      var thumb = photoThumb(item, field);
+      return thumb ? thumb.height : null;
+    },
+
+    // Vertical images are capped at 30rem tall (.vertikalt-bilde) and never
+    // upscaled; with width/height both left to "auto" the browser can't size
+    // the box until the image loads, so pin the width explicitly instead.
+    verticalPhotoStyle: function(item) {
+      var thumb = photoThumb(item, 'photo-vertikal');
+      return thumb ? verticalPhotoStyle(thumb.width, thumb.height) : '';
     }
   };
+}
+
+function photoThumb(item, field) {
+  var attachments = item && item.fields && item.fields[field];
+  return (attachments && attachments[0] && attachments[0].thumbnails && attachments[0].thumbnails.large) || null;
+}
+
+function verticalPhotoStyle(width, height) {
+  return 'width: 100%; max-width: min(' + width + 'px, calc(30rem * ' + width + ' / ' + height + '));';
 }
 
 PetiteVue.createApp({ AppData }).mount();
