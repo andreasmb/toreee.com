@@ -59,8 +59,8 @@
             </div>
             <div class="px-2 min-w-32">
               <a v-if="item['fields']['ekstern-link']" :href="item['fields']['ekstern-link']" target="_blank">
-                <img :src="photoUrl(item, 'photo')" alt="" v-if="photoUrl(item, 'photo')" class="mb-8 w-full">
-                <img :src="photoUrl(item, 'photo-vertikal')" alt="" v-if="photoUrl(item, 'photo-vertikal')" class="vertikalt-bilde mb-8 w-auto">
+                <img :src="photoUrl(item, 'photo')" :width="photoWidth(item, 'photo')" :height="photoHeight(item, 'photo')" alt="" v-if="photoUrl(item, 'photo')" class="mb-8 w-full">
+                <img :src="photoUrl(item, 'photo-vertikal')" :width="photoWidth(item, 'photo-vertikal')" :height="photoHeight(item, 'photo-vertikal')" :style="verticalPhotoStyle(item)" alt="" v-if="photoUrl(item, 'photo-vertikal')" class="vertikalt-bilde mb-8">
               </a>
               <div class="mb-2 min-beskrivelse">{{ item['fields']['min-beskrivelse'] }}</div>
               <div class="mb-2 presse-beskrivelse">{{ item['fields']['presse-beskrivelse'] }}</div>

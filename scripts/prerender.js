@@ -47,10 +47,14 @@ function escapeHtml(str) {
   }[c]));
 }
 
-function photoUrl(item, field) {
+function photoThumb(item, field) {
   const attachments = item && item.fields && item.fields[field];
-  const thumb = attachments && attachments[0] && attachments[0].thumbnails && attachments[0].thumbnails.large;
-  return thumb ? thumb.url : '';
+  return (attachments && attachments[0] && attachments[0].thumbnails && attachments[0].thumbnails.large) || null;
+}
+
+// Mirrors verticalPhotoStyle() in js/script.js — see the comment there.
+function verticalPhotoStyle(width, height) {
+  return `width: 100%; max-width: min(${width}px, calc(30rem * ${width} / ${height}));`;
 }
 
 function renderItem(item, converter) {
@@ -60,14 +64,14 @@ function renderItem(item, converter) {
   const date = escapeHtml(f['dato']);
   const linkLabel = escapeHtml(f['ekstern-link-label']);
   const link = f['ekstern-link'] ? escapeHtml(f['ekstern-link']) : '';
-  const photo = photoUrl(item, 'photo');
-  const photoVert = photoUrl(item, 'photo-vertikal');
+  const photo = photoThumb(item, 'photo');
+  const photoVert = photoThumb(item, 'photo-vertikal');
   const minB = converter.makeHtml(f['min-beskrivelse'] || '');
   const presseB = converter.makeHtml(f['presse-beskrivelse'] || '');
 
   let imagesHtml = '';
-  if (photo) imagesHtml += `<img src="${photo}" alt="" class="mb-8 w-full">`;
-  if (photoVert) imagesHtml += `<img src="${photoVert}" alt="" class="vertikalt-bilde mb-8 w-auto">`;
+  if (photo) imagesHtml += `<img src="${photo.url}" width="${photo.width}" height="${photo.height}" alt="" class="mb-8 w-full">`;
+  if (photoVert) imagesHtml += `<img src="${photoVert.url}" width="${photoVert.width}" height="${photoVert.height}" style="${verticalPhotoStyle(photoVert.width, photoVert.height)}" alt="" class="vertikalt-bilde mb-8">`;
   const imagesBlock = imagesHtml ? (link ? `<a href="${link}" target="_blank">${imagesHtml}</a>` : imagesHtml) : '';
   const linkBlock = link ? `<a class="text mb-2 text-sm" href="${link}">${linkLabel}</a>` : '';
 
